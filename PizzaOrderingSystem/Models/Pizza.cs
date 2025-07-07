@@ -15,5 +15,11 @@ public partial class Pizza
 
     public decimal? Price { get; set; }
 
+    public int? Sprice { get; set; }
+
+    public int? Mprice { get; set; }
+
+    public int? Lprice { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }
