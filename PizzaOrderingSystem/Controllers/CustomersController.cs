@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaOrderingSystem.Models;
-//rohan coment
+//om coment
 namespace PizzaOrderingSystem.Controllers
 {
     [Route("api/[controller]")]
