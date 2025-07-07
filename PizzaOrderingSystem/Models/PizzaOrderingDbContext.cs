@@ -25,13 +25,13 @@ public partial class PizzaOrderingDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=GS-CREATION;Initial Catalog=PizzaOrderingDB;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=10.61.18.20;Initial Catalog=PizzaOrderingDB;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64B813D7029D");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64B87D6DAA5F");
 
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.Address).HasMaxLength(100);
@@ -48,7 +48,7 @@ public partial class PizzaOrderingDbContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04FF15A371911");
+            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04FF1FFCB8B5D");
 
             entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
             entity.Property(e => e.Address).HasMaxLength(100);
@@ -67,7 +67,7 @@ public partial class PizzaOrderingDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BAFA1650283");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BAF1522B29A");
 
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
@@ -92,7 +92,7 @@ public partial class PizzaOrderingDbContext : DbContext
 
         modelBuilder.Entity<Pizza>(entity =>
         {
-            entity.HasKey(e => e.PizzaId).HasName("PK__Pizzas__0B6012FD837C9196");
+            entity.HasKey(e => e.PizzaId).HasName("PK__Pizzas__0B6012FD924FB8BF");
 
             entity.Property(e => e.PizzaId).HasColumnName("PizzaID");
             entity.Property(e => e.Category).HasMaxLength(50);
