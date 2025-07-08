@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaOrderingSystem.Models;
+using PizzaOrderingSystem.Models.DtoClasses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PizzaOrderingSystem.Controllers
 {
@@ -102,6 +103,23 @@ namespace PizzaOrderingSystem.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employees.Any(e => e.EmployeeId == id);
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] CustomerEmployeeLoginDto customerLoginDto)
+        {
+            if (customerLoginDto.Email == "" || customerLoginDto.Password == "")
+            {
+                return BadRequest("Email and Password are required.");
+            }
+            if (await _context.Employees
+                .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.Password == customerLoginDto.Password) != null)
+            {
+                return Ok("Login successful.");
+            }
+
+            return Unauthorized("Unauthorized access");
+
         }
     }
 }
