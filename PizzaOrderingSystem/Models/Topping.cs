@@ -5,11 +5,13 @@ namespace PizzaOrderingSystem.Models;
 
 public partial class Topping
 {
-    public int TpId { get; set; }
+    public int ToppingId { get; set; }
 
-    public int? Sprice { get; set; }
+    public string? ToppingName { get; set; }
 
-    public int? Mprice { get; set; }
+    public int? SmallPrice { get; set; }
 
-    public int? Lprice { get; set; }
+    public int? MediumPrice { get; set; }
+
+    public int? LargePrice { get; set; }
 }

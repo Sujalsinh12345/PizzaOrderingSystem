@@ -84,22 +84,6 @@ namespace PizzaOrderingSystem.Controllers
             return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
         }
 
-        // DELETE: api/Customers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(int id)
-        {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
         private bool CustomerExists(int id)
         {
             return _context.Customers.Any(e => e.CustomerId == id);
@@ -113,7 +97,7 @@ namespace PizzaOrderingSystem.Controllers
                 return BadRequest("Email and Password are required.");
             }
             if (await _context.Customers
-                .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.Password == customerLoginDto.Password) != null)
+                .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.PassWord == customerLoginDto.Password) != null)
             {
                 return Ok("Login successful.");
             }

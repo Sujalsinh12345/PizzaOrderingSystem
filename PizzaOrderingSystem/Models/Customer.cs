@@ -19,7 +19,7 @@ public partial class Customer
 
     public string? Email { get; set; }
 
-    public string? Password { get; set; }
+    public string? PassWord { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+  //  public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

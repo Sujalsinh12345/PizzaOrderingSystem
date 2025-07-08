@@ -13,13 +13,11 @@ public partial class Pizza
 
     public string? Category { get; set; }
 
-    public decimal? Price { get; set; }
+    public int? SmallPrice { get; set; }
 
-    public int? Sprice { get; set; }
+    public int? MediumPrice { get; set; }
 
-    public int? Mprice { get; set; }
+    public int? LargePrice { get; set; }
 
-    public int? Lprice { get; set; }
-
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+   // public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

@@ -35,59 +35,68 @@ public partial class PizzaOrderingDbContext : DbContext
     {
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.AdId).HasName("PK__Admins__7130D58E8A54DC3C");
+            entity.HasKey(e => e.AdminId).HasName("PK__Admins__719FE4884B4963DE");
 
-            entity.Property(e => e.AdId).HasColumnName("AdID");
+            entity.HasIndex(e => e.UserName, "UQ__Admins__C9F284560A89AB23").IsUnique();
+
             entity.Property(e => e.Password)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.UserName)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64B87D6DAA5F");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64B842362778");
+
+            entity.ToTable("Customer");
+
+            entity.HasIndex(e => e.Email, "UQ__Customer__A9D10534E6889925").IsUnique();
 
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.Address).HasMaxLength(100);
-            entity.Property(e => e.City).HasMaxLength(50);
-            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.City).HasMaxLength(20);
+            entity.Property(e => e.Email).HasMaxLength(20);
             entity.Property(e => e.Fname)
                 .HasMaxLength(50)
                 .HasColumnName("FName");
             entity.Property(e => e.Lname)
                 .HasMaxLength(50)
                 .HasColumnName("LName");
-            entity.Property(e => e.Password)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.PassWord).HasMaxLength(20);
             entity.Property(e => e.PhoneNo).HasMaxLength(20);
         });
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04FF1FFCB8B5D");
+            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04FF102F2C714");
+
+            entity.ToTable("Employee");
+
+            entity.HasIndex(e => e.UserName, "UQ__Employee__C9F28456DC0AF8F7").IsUnique();
 
             entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
-            entity.Property(e => e.Address).HasMaxLength(100);
-            entity.Property(e => e.City).HasMaxLength(50);
-            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.Address).HasMaxLength(50);
+            entity.Property(e => e.BranchCode).HasMaxLength(20);
+            entity.Property(e => e.Email).HasMaxLength(20);
             entity.Property(e => e.Fname)
-                .HasMaxLength(50)
+                .HasMaxLength(20)
                 .HasColumnName("FName");
             entity.Property(e => e.Lname)
-                .HasMaxLength(50)
+                .HasMaxLength(20)
                 .HasColumnName("LName");
-            entity.Property(e => e.Password).HasMaxLength(100);
+            entity.Property(e => e.PassWord).HasMaxLength(100);
             entity.Property(e => e.PhoneNo).HasMaxLength(20);
             entity.Property(e => e.UserName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BAF1522B29A");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAF05DC0E74");
+
+            entity.ToTable("Order");
 
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
@@ -97,43 +106,41 @@ public partial class PizzaOrderingDbContext : DbContext
             entity.Property(e => e.PizzaId).HasColumnName("PizzaID");
             entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__Orders__Customer__3D5E1FD2");
+            //entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
+            //    .HasForeignKey(d => d.CustomerId)
+            //    .HasConstraintName("FK__Order__CustomerI__3F466844");
 
-            entity.HasOne(d => d.Employee).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.EmployeeId)
-                .HasConstraintName("FK__Orders__Employee__3F466844");
+            //entity.HasOne(d => d.Employee).WithMany(p => p.Orders)
+            //    .HasForeignKey(d => d.EmployeeId)
+            //    .HasConstraintName("FK__Order__EmployeeI__403A8C7D");
 
-            entity.HasOne(d => d.Pizza).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.PizzaId)
-                .HasConstraintName("FK__Orders__PizzaID__3E52440B");
+            //entity.HasOne(d => d.Pizza).WithMany(p => p.Orders)
+            //    .HasForeignKey(d => d.PizzaId)
+            //    .HasConstraintName("FK__Order__PizzaID__412EB0B6");
         });
 
         modelBuilder.Entity<Pizza>(entity =>
         {
-            entity.HasKey(e => e.PizzaId).HasName("PK__Pizzas__0B6012FD924FB8BF");
+            entity.HasKey(e => e.PizzaId).HasName("PK__Pizza__0B6012FDF29DD249");
+
+            entity.ToTable("Pizza");
 
             entity.Property(e => e.PizzaId).HasColumnName("PizzaID");
             entity.Property(e => e.Category).HasMaxLength(50);
             entity.Property(e => e.ImageUrl)
-                .HasMaxLength(255)
+                .HasMaxLength(100)
                 .HasColumnName("ImageURL");
-            entity.Property(e => e.Lprice).HasColumnName("LPrice");
-            entity.Property(e => e.Mprice).HasColumnName("MPrice");
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Sprice).HasColumnName("SPrice");
+            entity.Property(e => e.Name).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Topping>(entity =>
         {
-            entity.HasKey(e => e.TpId).HasName("PK__Toppings__FFF87F102430DD57");
+            entity.HasKey(e => e.ToppingId).HasName("PK__Toppings__EE02CCE51FAA7092");
 
-            entity.Property(e => e.TpId).HasColumnName("TpID");
-            entity.Property(e => e.Lprice).HasColumnName("LPrice");
-            entity.Property(e => e.Mprice).HasColumnName("MPrice");
-            entity.Property(e => e.Sprice).HasColumnName("SPrice");
+            entity.Property(e => e.ToppingId).HasColumnName("ToppingID");
+            entity.Property(e => e.ToppingName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);

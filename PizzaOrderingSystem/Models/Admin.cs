@@ -5,7 +5,7 @@ namespace PizzaOrderingSystem.Models;
 
 public partial class Admin
 {
-    public int AdId { get; set; }
+    public int AdminId { get; set; }
 
     public string? UserName { get; set; }
 

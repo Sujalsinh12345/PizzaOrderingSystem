@@ -9,7 +9,7 @@ public partial class Employee
 
     public string? UserName { get; set; }
 
-    public string? Password { get; set; }
+    public string? PassWord { get; set; }
 
     public string? Fname { get; set; }
 
@@ -19,9 +19,9 @@ public partial class Employee
 
     public string? PhoneNo { get; set; }
 
-    public string? City { get; set; }
-
     public string? Email { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public string? BranchCode { get; set; }
+
+    //public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

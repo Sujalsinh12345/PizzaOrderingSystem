@@ -113,7 +113,7 @@ namespace PizzaOrderingSystem.Controllers
                 return BadRequest("Email and Password are required.");
             }
             if (await _context.Employees
-                .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.Password == customerLoginDto.Password) != null)
+                .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.PassWord == customerLoginDto.Password) != null)
             {
                 return Ok("Login successful.");
             }
