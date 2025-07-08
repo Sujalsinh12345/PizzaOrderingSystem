@@ -5,9 +5,9 @@ namespace PizzaOrderingSystem.Models.Repository
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly PizzaOrderingDbContext dbContext;
+        private readonly PizzaOrderingSystemContext dbContext;
 
-        public EmployeeRepository(PizzaOrderingDbContext dbContext)
+        public EmployeeRepository(PizzaOrderingSystemContext dbContext)
         {
             this.dbContext = dbContext;
         }

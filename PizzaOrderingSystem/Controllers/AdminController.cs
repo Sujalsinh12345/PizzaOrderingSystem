@@ -13,8 +13,8 @@ namespace PizzaOrderingSystem.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        private readonly PizzaOrderingDbContext _context;
-        public AdminController(PizzaOrderingDbContext context)
+        private readonly PizzaOrderingSystemContext _context;
+        public AdminController(PizzaOrderingSystemContext context)
         {
             _context = context;
         }

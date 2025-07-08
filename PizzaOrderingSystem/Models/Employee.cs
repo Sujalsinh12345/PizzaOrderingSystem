@@ -21,6 +21,8 @@ public partial class Employee
 
     public string? Email { get; set; }
 
+    public string? City { get; set; }
+
     public string? BranchCode { get; set; }
 
     //public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PizzaOrderingSystem.Models;
 
-public partial class PizzaOrderingDbContext : DbContext
+public partial class PizzaOrderingSystemContext : DbContext
 {
-    public PizzaOrderingDbContext()
+    public PizzaOrderingSystemContext()
     {
     }
 
-    public PizzaOrderingDbContext(DbContextOptions<PizzaOrderingDbContext> options)
+    public PizzaOrderingSystemContext(DbContextOptions<PizzaOrderingSystemContext> options)
         : base(options)
     {
     }
@@ -29,15 +29,15 @@ public partial class PizzaOrderingDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=10.61.18.20;Initial Catalog=PizzaOrderingDB;Integrated Security=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=GS-CREATION;Initial Catalog=PizzaOrderingSystem;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.AdminId).HasName("PK__Admins__719FE4884B4963DE");
+            entity.HasKey(e => e.AdminId).HasName("PK__Admins__719FE4884202C79E");
 
-            entity.HasIndex(e => e.UserName, "UQ__Admins__C9F284560A89AB23").IsUnique();
+            entity.HasIndex(e => e.UserName, "UQ__Admins__C9F28456E336A367").IsUnique();
 
             entity.Property(e => e.Password)
                 .HasMaxLength(100)
@@ -49,11 +49,11 @@ public partial class PizzaOrderingDbContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64B842362778");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64B89182BA6A");
 
             entity.ToTable("Customer");
 
-            entity.HasIndex(e => e.Email, "UQ__Customer__A9D10534E6889925").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Customer__A9D1053439F9336D").IsUnique();
 
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.Address).HasMaxLength(100);
@@ -71,15 +71,20 @@ public partial class PizzaOrderingDbContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04FF102F2C714");
+            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04FF1232D66EA");
 
             entity.ToTable("Employee");
 
-            entity.HasIndex(e => e.UserName, "UQ__Employee__C9F28456DC0AF8F7").IsUnique();
+            entity.HasIndex(e => e.UserName, "UQ__Employee__C9F284563357EF06").IsUnique();
 
             entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
             entity.Property(e => e.Address).HasMaxLength(50);
-            entity.Property(e => e.BranchCode).HasMaxLength(20);
+            entity.Property(e => e.BranchCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.City)
+                .HasMaxLength(20)
+                .HasColumnName("city");
             entity.Property(e => e.Email).HasMaxLength(20);
             entity.Property(e => e.Fname)
                 .HasMaxLength(20)
@@ -94,7 +99,7 @@ public partial class PizzaOrderingDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAF05DC0E74");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAFF5CACAD6");
 
             entity.ToTable("Order");
 
@@ -121,7 +126,7 @@ public partial class PizzaOrderingDbContext : DbContext
 
         modelBuilder.Entity<Pizza>(entity =>
         {
-            entity.HasKey(e => e.PizzaId).HasName("PK__Pizza__0B6012FDF29DD249");
+            entity.HasKey(e => e.PizzaId).HasName("PK__Pizza__0B6012FDC878B0CA");
 
             entity.ToTable("Pizza");
 
@@ -131,11 +136,12 @@ public partial class PizzaOrderingDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("ImageURL");
             entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
         });
 
         modelBuilder.Entity<Topping>(entity =>
         {
-            entity.HasKey(e => e.ToppingId).HasName("PK__Toppings__EE02CCE51FAA7092");
+            entity.HasKey(e => e.ToppingId).HasName("PK__Toppings__EE02CCE5412D5037");
 
             entity.Property(e => e.ToppingId).HasColumnName("ToppingID");
             entity.Property(e => e.ToppingName)
