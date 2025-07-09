@@ -19,22 +19,60 @@ namespace PizzaOrderingSystem.Controllers
             _context = context;
         }
 
+        //[HttpPost("login")]
+        //public async Task<ActionResult> Login([FromBody] AdminLoginDto adminLoginDto)
+        //{
+        //    if (adminLoginDto.Email == "" || adminLoginDto.Password == "")
+        //    {
+        //        return BadRequest("Username and Password cannot be empty");
+        //    }
+        //    if (await _context.Admins.FirstOrDefaultAsync(a => a.Email == adminLoginDto.Email && a.Password == adminLoginDto.Password) != null)
+        //    {
+        //        return Ok("Login Successful");
+        //    }
+        //    else
+        //    {
+        //        return Unauthorized("Invalid Username or Password");
+        //    }
+        //}
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] AdminLoginDto adminLoginDto)
+        public async Task<ActionResult> Login([FromBody] AdminLoginDto AdminLoginDto)
         {
-            if (adminLoginDto.UserName == "" || adminLoginDto.Password == "")
+            // Validate input
+            if (string.IsNullOrEmpty(AdminLoginDto.Email) || string.IsNullOrEmpty(AdminLoginDto.Password))
             {
-                return BadRequest("Username and Password cannot be empty");
+                return BadRequest(new { message = "Email and Password are required." });
             }
-            if (await _context.Admins.FirstOrDefaultAsync(a => a.UserName == adminLoginDto.UserName && a.Password == adminLoginDto.Password) != null)
+
+            // Fetch user from the database
+            var Admin = await _context.Admins
+                .FirstOrDefaultAsync(e => e.Email == AdminLoginDto.Email && e.Password == AdminLoginDto.Password);
+
+            // Check if user exists
+            if (Admin != null)
             {
-                return Ok("Login Successful");
+                // Generate a JWT token or any authentication token
+                var token = GenerateToken(Admin); // Implement this method for token generation
+                var role = "Admin"; // Set user role
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Login successful.",
+                    token, // Include token
+                    user = Admin
+                });
             }
-            else
-            {
-                return Unauthorized("Invalid Username or Password");
-            }
+
+            // Unauthorized response
+            return Unauthorized(new { success = false, message = "Unauthorized access" });
         }
+
+        private object GenerateToken(Admin admin)
+        {
+            return "your_generated_token";
+        }
+
 
     }
 }

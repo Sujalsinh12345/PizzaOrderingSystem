@@ -76,34 +76,87 @@ namespace PizzaOrderingSystem.Controllers
         // POST: api/Customers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<object>> PostCustomer(Customer customer)
         {
+            // Add the customer to the database
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
+            // Generate a token (you'll need to implement this based on your auth logic)
+            var token = GenerateToken(customer); // Implement this method for token generation
+
+            // Generate the response
+            var response = new
+            {
+                success = true,
+                message = "Customer created successfully.",
+                token = token, // Include the token in the response
+                user = customer, // Include user information
+                role = "customer" // Assign a default role for a new customer
+            };
+
+            return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, response);
         }
+
 
         private bool CustomerExists(int id)
         {
             return _context.Customers.Any(e => e.CustomerId == id);
         }
 
+        //[HttpPost("login")]
+        //public async Task<ActionResult> Login([FromBody] CustomerEmployeeLoginDto customerLoginDto)
+        //{
+        //    if (customerLoginDto.Email == "" || customerLoginDto.Password == "")
+        //    {
+        //        return BadRequest("Email and Password are required.");
+        //    }
+        //    if (await _context.Customers
+        //        .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.PassWord == customerLoginDto.Password) != null)
+        //    {
+        //        return Ok("Login successful.");
+        //    }
+
+        //    return Unauthorized("Unauthorized access");
+
+        //}
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] CustomerEmployeeLoginDto customerLoginDto)
         {
-            if (customerLoginDto.Email == "" || customerLoginDto.Password == "")
+            if (string.IsNullOrEmpty(customerLoginDto.Email) || string.IsNullOrEmpty(customerLoginDto.Password))
             {
-                return BadRequest("Email and Password are required.");
-            }
-            if (await _context.Customers
-                .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.PassWord == customerLoginDto.Password) != null)
-            {
-                return Ok("Login successful.");
+                return BadRequest(new { message = "Email and Password are required." });
             }
 
-            return Unauthorized("Unauthorized access");
+            var customero = await _context.Customers
+                .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.PassWord == customerLoginDto.Password);
 
+            if (customero != null)
+            {
+                // Assuming you have a Role property in your Customer model
+                var role = "customer"; // Get the user's role
+
+                // Generate a token (this is just a placeholder, implement your token generation logic)
+                var token = GenerateToken(customero); // Implement this method to generate a JWT or any token
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Login successful.",
+                    token = token, // Include the token in the response
+                    user = customero, // Include user information
+                    role = role // Include the user's role
+                });
+            }
+
+            return Unauthorized(new { success = false, message = "Unauthorized access" });
+        }
+
+        // Placeholder for token generation logic
+        private string GenerateToken(Customer customer)
+        {
+            // Implement your token generation logic here
+            return "your_generated_token"; // Replace with actual token
         }
     }
 }

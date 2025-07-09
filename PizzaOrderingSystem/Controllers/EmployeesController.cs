@@ -105,21 +105,59 @@ namespace PizzaOrderingSystem.Controllers
             return _context.Employees.Any(e => e.EmployeeId == id);
         }
 
+        //[HttpPost("login")]
+        //public async Task<ActionResult> Login([FromBody] CustomerEmployeeLoginDto customerLoginDto)
+        //{
+        //    if (customerLoginDto.Email == "" || customerLoginDto.Password == "")
+        //    {
+        //        return BadRequest("Email and Password are required.");
+        //    }
+        //    if (await _context.Employees
+        //        .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.PassWord == customerLoginDto.Password) != null)
+        //    {
+        //        return Ok("Login successful.");
+        //    }
+
+        //    return Unauthorized("Unauthorized access");
+
+        //}
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] CustomerEmployeeLoginDto customerLoginDto)
         {
-            if (customerLoginDto.Email == "" || customerLoginDto.Password == "")
+            // Validate input
+            if (string.IsNullOrEmpty(customerLoginDto.Email) || string.IsNullOrEmpty(customerLoginDto.Password))
             {
-                return BadRequest("Email and Password are required.");
-            }
-            if (await _context.Employees
-                .FirstOrDefaultAsync(c => c.Email == customerLoginDto.Email && c.PassWord == customerLoginDto.Password) != null)
-            {
-                return Ok("Login successful.");
+                return BadRequest(new { message = "Email and Password are required." });
             }
 
-            return Unauthorized("Unauthorized access");
+            // Fetch user from the database
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.Email == customerLoginDto.Email && e.PassWord == customerLoginDto.Password);
 
+            // Check if user exists
+            if (employee != null)
+            {
+                // Generate a JWT token or any authentication token
+                var token = GenerateToken(employee); // Implement this method for token generation
+                var role = "employee"; // Set user role
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Login successful.",
+                    token, // Include token
+                    user = employee
+                });
+            }
+
+            // Unauthorized response
+            return Unauthorized(new { success = false, message = "Unauthorized access" });
         }
+        private string GenerateToken(Employee employee)
+        {
+            // Implement your token generation logic here
+            return "your_generated_token"; // Replace with actual token
+        }
+
     }
 }
