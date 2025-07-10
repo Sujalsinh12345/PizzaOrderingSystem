@@ -31,14 +31,21 @@ namespace PizzaOrderingSystem.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.CustomerId == id);
 
             if (order == null)
             {
                 return NotFound();
             }
 
-            return order;
+            return Ok(new
+            {
+                success = true,
+                order
+
+
+
+            });
         }
 
         // PUT: api/Orders/5

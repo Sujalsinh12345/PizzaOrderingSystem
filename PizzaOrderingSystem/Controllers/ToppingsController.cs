@@ -24,7 +24,12 @@ namespace PizzaOrderingSystem.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Topping>>> GetToppings()
         {
-            return await _context.Toppings.ToListAsync();
+            var top = await _context.Toppings.ToListAsync();
+            return Ok(new
+            {
+                success = true,
+                top
+            });
         }
 
         // GET: api/Toppings/5
@@ -38,7 +43,11 @@ namespace PizzaOrderingSystem.Controllers
                 return NotFound();
             }
 
-            return topping;
+            return Ok(new
+            {
+                success = true,
+                topping
+            });
         }
 
         // PUT: api/Toppings/5

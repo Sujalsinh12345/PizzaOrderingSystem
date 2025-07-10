@@ -25,7 +25,15 @@ namespace PizzaOrderingSystem.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            var cust =  await _context.Customers.ToListAsync();
+            return Ok(new
+            {
+                success = true,
+                cust
+
+
+
+            });
         }
 
         // GET: api/Customers/5
@@ -39,7 +47,14 @@ namespace PizzaOrderingSystem.Controllers
                 return NotFound();
             }
 
-            return customer;
+            return Ok(new
+            {
+                success = true,
+                customer
+
+
+
+            });
         }
 
         // PUT: api/Customers/5
