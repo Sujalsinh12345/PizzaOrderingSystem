@@ -19,5 +19,5 @@ public partial class Pizza
 
     public int? LargePrice { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    //    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }
