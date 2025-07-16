@@ -25,5 +25,5 @@ public partial class Employee
 
     public string? BranchCode { get; set; }
 
-    //public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }
