@@ -77,7 +77,11 @@ namespace PizzaOrderingSystem.Controllers
                 }
             }
 
-            return NoContent();
+            // Fetch the updated pizza from the database (to return fresh data)
+            var updatedPizza = await _context.Pizzas.FindAsync(id);
+
+            // Return a JSON response with success and the updated pizza
+            return Ok(new { success = true, pizza = updatedPizza });
         }
 
         // POST: api/Pizzas

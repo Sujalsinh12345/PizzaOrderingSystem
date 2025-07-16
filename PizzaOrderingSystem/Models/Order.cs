@@ -19,9 +19,9 @@ public partial class Order
 
     public DateTime? DeliveryDateTime { get; set; }
 
-    //public virtual Customer? Customer { get; set; }
+    //    public virtual Customer? Customer { get; set; }
 
-    //public virtual Employee? Employee { get; set; }
+    //    public virtual Employee? Employee { get; set; }
 
-    //public virtual Pizza? Pizza { get; set; }
+    //    public virtual Pizza? Pizza { get; set; }
 }

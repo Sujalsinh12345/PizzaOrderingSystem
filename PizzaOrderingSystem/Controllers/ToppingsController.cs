@@ -57,7 +57,7 @@ namespace PizzaOrderingSystem.Controllers
         {
             if (id != topping.ToppingId)
             {
-                return BadRequest();
+                return BadRequest(new { success = false, message = "ID mismatch" });
             }
 
             _context.Entry(topping).State = EntityState.Modified;
@@ -70,7 +70,7 @@ namespace PizzaOrderingSystem.Controllers
             {
                 if (!ToppingExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new { success = false, message = "Topping not found" });
                 }
                 else
                 {
@@ -78,9 +78,14 @@ namespace PizzaOrderingSystem.Controllers
                 }
             }
 
-            return NoContent();
+            // ✅ Return success response with success=true
+            return Ok(new
+            {
+                success = true,
+                message = "Topping updated successfully",
+                data = topping
+            });
         }
-
         // POST: api/Toppings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
